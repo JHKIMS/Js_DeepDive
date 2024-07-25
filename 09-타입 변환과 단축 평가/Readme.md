@@ -6,8 +6,8 @@
 두 가지 모두 원시 값을 직접 변경하는 것은 아니다.
 `원시 값(primitive value)`은 변경 `불가능한 값(immutable value)`
 
-> **🍴 암묵적 타입 변환 - 찍먹**
-기존 변수 값을 재할당하여 변경하는 것이 아님.
+> **🍴 암묵적 타입 변환 - 찍먹**<br>
+기존 변수 값을 재할당하여 변경하는 것이 아님.<br>
 자바스크립트 엔진은 표현식을 에러 없이 평가하기 위해 피연산자의 값을 암묵적 타입 변환해 새로운 타입의 값을 만들어 단 한 번 사용하고 버린다.
 
 ```js
@@ -99,7 +99,7 @@ Array + '';           // "function Array() { [native code] }"
 빈 문자열(''), 빈 배열([]), null, false 는 0으로,
 true는 1로 반환.
 
-객체, 빈 배열이 아닌 배열, undefined는 반환되지 않아 NaN.
+객체, 빈 배열이 아닌 배열, undefined는 반환되지 않아 NaN.<br>
 🎯 Like This
 ```js
 var score = 'test something'
@@ -110,17 +110,155 @@ let person = {
   job: "Developer",
 };
 ```
-**불리언 타입으로 변환**
+**불리언(Boolean) 타입으로 변환**
+흔히 아는 불리언 타입`true`, `false`
+falsy값만 조심하면 불리언 타입 변환은 비교적 안전하다.
+
+**Falsy**값
+- false
+- undefined
+- null
+- 0, -0
+- NaN
+- ''(빈 문자열)
+
+**Truthy**값
+조건문에서 true로 평가되는 모든 값을 의미한다.(falsy값 제외 전부)
+"hello"와 42는 truthy값.
+```js
+if("hello") console.log('Truthy Value')
+if(42) console.log('Truthy Value2')
+```
 
 ---
 ### 명시적 타입 변환
 **문자열 타입으로 변환**
+
 **숫자 타입으로 변환**
+
 **불리언 타입으로 변환**
 
+---
 ### 논리 연산자를 사용한 단축 평가
+논리 연산의 결과를 결정하는 두 번째 피연산자, 즉 문자열 'Dog'을 그대로 반환.
+결과적으로 두 번째 피연산자가 논리곱 연산자 표현식의 평가 결과를 결정하기 때문.
+```js
+'Cat' && 'Dog' // → 'Dog'
+```
 
+논리 연산의 결과를 결정한 첫 번째 피연산자, 즉 문자열 'Cat'을 그대로 반환.
+```js
+'Cat' || 'Dog' // → 'Cat'
+```
+단축 평가는 표현식을 평가하는 도중에 평가결과가 확정된 경우 → 나머지 평가 과정을 생략.
+
+**단축 평가 규칙**
+| 단축 평가 표현식  | 평가 결과 |
+| ----------------- | --------- |
+| true ll anything  | true      |
+| false ll anything | anything  |
+| true && anything  | anything  |
+| false && anything | false     |
+
+```js
+// 논리합(||) 연산
+"Cat" || "Dog"; // "Cat"
+false || "Dog"; // "Dog"
+"Cat" || false; // "Cat"
+
+// 논리곱(&&) 연산
+"Cat" && "Dog"; // "Dog"
+false && "Dog"; // "false"
+"Cat" && false; // "false"
+```
+논리곱(&&) 연산자_true평가 if문을 대체할 수 있다. → 가독성 좋음.
+```js
+var done = true;
+var message = "";
+
+// 조건문으로 값 할당
+if (done) message = "Hmm";
+
+// 논리 연산자(논리곱)으로 값 할당
+meessage = done && "Awesome";
+```
+
+논리합(||) 연산자_false평가 if문을 대체할 수 있다.
+```js
+var done = false;
+var message = "";
+
+if(!done) message = '미완료';
+
+message = done || '미완료';
+```
+
+**객체를 가리키기를 기대하는 변수가 null 또는 undefined가 아닌지 확인하고 프로퍼티 참조할 경우**<br>
+: 객체를 가리키기를 기대하는 변수 값이 객체가 아닌 null 또는 undefined인 경우 객체의 프로퍼티를 참조하면 타입 에러 발생.<br> 
+이런 경우 단축 평가를 사용해 예방할 수 있다.<br>
+사실상 이렇게 처리하는 부분도 Optional Chaining을 사용하면 더 가독성 좋게 작성할 수 있음.
+```js
+var elem = null;
+var value = elem && elem.value;
+```
+**함수 매개변수에 기본값을 설정할 때**
+함수를 호출할 때 인수를 전달하지 않으면, 매개변수에는 undefined가 할당.
+단축 평가를 사용해 매개변수 기본값을 설정하면 에러 방지 가능.
+```js
+// 인수를 전달하지 않을 경우
+function getStringLength(str) {
+  return str.length;
+}
+getStringLength(); // TypeError: Cannot read property 'length' of undefined
+
+// 단축 평가를 사용한 매개변수의 기본값 설정
+function getStringLength(str) {
+  str = str || "";
+  return str.length;
+}
+getStringLength(); // 0
+
+// Es6의 매개변수 default parameter 설정
+function getStringLength(str = "") {
+  return str.length;
+}
+getStringLength(); // 0
+```
+---
 ### 옵셔널 체이닝 연산자
+?. = 옵셔널 체이닝(optional chaining) 연산자
+좌항의 피연산자가 null 또는 undefined인 경우 undefined반환.<br>
+그렇지 않으면 우항의 프로퍼티 참조.
+
+```js
+var elem = null;
+var value = elem?.value; // undefined
+```
+
+객체를 가리키기를 기대하는 변수가 null 또는 undefined가 아닌지 확인하고 프로퍼티를 안전하게 참조할 때 유용
+
+
+**💡 논리곱(&&) 연산자 vs 옵셔널 체이닝 연산자**
+```js
+// 논리곱(&&) 연산자 = 좌항 피연산자가 Falsy값이면, 좌항 피연산자를 그대로 반환한다. (단, 0 또는 ''은 객체로 평가될 때도 있다.)
+var str = ""; //
+var length = str && str.length; // ''
+
+// 옵셔널 체이닝 = 좌항 피연산자가 Falsy값이라도 null 또는 undefined 만 아니면, 우항의 프로퍼티를 참조한다.
+var str = "";
+var length = str?.length; // 0
+```
 
 ### null 병합 연산자
+?? = 병합 연산자(nullish coalescing) 연산자
 
+좌항의 피연산자가 `null 또는 undefined` → 우항의 피연산자를 반환
+그렇지 않은 경우 → 좌항의 프로퍼티를 참조.
+
+변수에 기본값을 설정할 때 유용하다.
+
+null 병합 연산자 ??는 좌항의 피연산자가 false로 평가되는 falsy값이라도 null 또는 undefined가 아니면 좌항의 피연산자를 그대로 반환한다.
+```js
+let value3 = NaN ?? "기본값";
+console.log(value3); // NaN
+```
