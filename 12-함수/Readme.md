@@ -110,7 +110,7 @@ foo(👉 함수 선언문)는 호출이 가능하고 , bar(👉 함수 표현식
 거기에 함수 객체를 할당한다.<br>
 ![](https://velog.velcdn.com/images/next-react/post/2e1a55d2-9e05-4f64-b382-3d206a948269/image.png)
 
-함수는 함수 이름으로 호출하는 것이 아닌 함수 객체를 가리키는 식별자로 호출.
+함수는 함수 이름으로 호출하는 것이 아닌 함수 객체를 가리키는 식별자로 호출.<br>
 ![](https://velog.velcdn.com/images/next-react/post/e2d00750-7764-4880-b6f9-9650b49e50f6/image.png)
 
 **함수 표현식**<br>
@@ -244,7 +244,7 @@ function updateUser(id, name, email, age) {
 updateUser(1, 'John Doe', 'john@example.com', 30);
 ```
 
-**👍 Good**![](https://velog.velcdn.com/images/next-react/post/70fced0d-0f8a-4a40-9ff9-34a2edc8c599/image.png)
+**👍 Good**<br>![](https://velog.velcdn.com/images/next-react/post/70fced0d-0f8a-4a40-9ff9-34a2edc8c599/image.png)
 
 **반환문**
 함수는 return 키워드와 표현식으로 이뤄진 반환문을 사용해 실행 결과를 함수 외부로 반환할 수 있다.
@@ -310,7 +310,7 @@ primitive
 
 obj
 참조 값이 복사되어 매개변수에 전달.<br>
-함수 몸체에서 참조 값을 통해 겍체를 변경할 경우 `원본이 훼손.`<br>
+함수 몸체에서 참조 값을 통해 객체를 변경할 경우 `원본이 훼손.`<br>
 외부상태 - 함수 외부에서 함수 몸체 내부로 전달한 참조 값에 의해 `원본 객체가 변경되는 부수 효과 발생.`
 
 ![](https://velog.velcdn.com/images/next-react/post/f1f1eabc-888d-4cf9-b077-d0a27c22cb8e/image.png)
@@ -328,6 +328,15 @@ obj
 : 함수 정의와 동시에 즉시 호출되는 함수.<br>
 단 한 번만 호출되며 다시 호출할 수 없다.
 
+즉시 실행 함수는 `반드시 그룹 연산자(...)로 감싸야 한다.`
+즉시 실행 함수는 `함수 이름이 없는 익명 함수를 사용하는 것이  일반적이다.`
+
+```js
+(function (){
+    ///...
+})();
+```
+
 **재귀 함수**
 : 재귀 호출을 수행하는 함수.<br>
 재귀 호출 → 함수가 자기 자신을 호출하는 것.
@@ -340,7 +349,7 @@ function countdown(n){
 
 countdown(10);
 ```
-**재귀함수를 이용하여(ft.반복문 없이)**
+**재귀함수를 이용하여(ft.반복문 없이)**<br>
 ![](https://velog.velcdn.com/images/next-react/post/8edf8ccd-bdf3-4d35-be20-5dcf2a5c9563/image.png)
 
 **콜백 함수**
@@ -368,7 +377,7 @@ repeat 함수는 console.log(i)에 강하게 의존하고 있어 다른 일을 �
 함수의 변하지 않는 공통 로직은 미리 정의.<br>
 경우에 따라 변경되는 로직은 추상화해서 함수 외부에서 함수 내부로 전달.
 
-![](https://velog.velcdn.com/images/next-react/post/5acf8b09-9d1e-4a38-9e59-ad9f7e5a929c/image.png)
+![](https://velog.velcdn.com/images/next-react/post/5acf8b09-9d1e-4a38-9e59-ad9f7e5a929c/image.png)<br>
 repeat 함수는 경우에 따라 변경되는 일을 함수 f로 추상화하고 이를 외부에서 전달받음.<br>
 로직의 일부분을 함수로 전달받아 수행하므로 더욱 유연한 구조를 가짐.
 
