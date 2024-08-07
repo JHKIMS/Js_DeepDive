@@ -77,27 +77,89 @@ console.log(foo);// undefined
 ```
 
 #### 빌트인 전역 함수
-❌ eval - 결론부터 말하면 쓰면 안됨. 보안, 성능 취약함. ❌
+❌ eval - 결론부터 말하면 쓰면 안됨. 보안, 성능 취약함, 자바스크립트 엔진 최적화X ❌
 
 자바스크립트 코드를 나타내는 문자열을 인수로 받음.<br>
 : 전달받은 문자열 코드가 표현식이면 eval은 문자열 코드를 런타임에 평가해 값을 생성.
 표현식이 아니라 문이면 문자열 코드를 런타임에 실행.
 
 **isFinite**<br>
-전달받은 인수가 정상적인 유한수인지 검사하여 true, false 반환<br>
+전달받은 인수가 정상적인 유한수이면 true, 무한수이면 false 반환<br>
+인수의 타입이 숫자가 아닌 경우, 수자로 타입 변환 후 검사 수행.
+인수가 NaN으로 평가되는 값이라면 false 반환.
+```js
+isFinite(0);
+isFinite('10');
+
+isFinite(null);
+
+isFinite(Infinity);
+
+isFinite(NaN);
+isFinite('Hello');
+```
+
 **isNaN**<br>
 전달받은 인수가 NaN인지 검사하여 그 결과를 불리언 타입으로 반환.<br>
+```js
+isNaN(NaN) // true
+isNaN(10); // false
+
+isNaN('blabla'); // true
+isNaN('10'); // false: '10' → 10
+isNaN(''); // false: '' → 0
+isNaN(' '); // false: ' ' → 0
+```
 **parseFloat**<br>
 전달받은 문자열 인수를 부동 소수점 숫자, 즉 실수로 해석하여 반환.<br>
-**paeseInt**<br>
+```js
+parseFloat('3.14') // 3.14
+
+// 공백으로 구분된 문자열은 첫 번째 문자열만 반환.
+parseFloat('34 45 66') // 34
+
+// 첫 번째 문자열을 숫자로 변환할 수 없다면 NaN을 반환.
+parseFloat('He was 40'); // NaN
+
+// 앞뒤 공백은 무시.
+parseFloat(' 60 '); // 60
+```
+**parseInt**<br>
 전달받은 문자열 인수를 정수로 해석하여 반환.
+
+2번째 인수로 진법을 나타내는 기수 전달 가능.
+→ 생략할 경우 10진수로 해석하여 반환.
+→ 반환값은 언제나 10진수.
+```js
+// 문자열을 정수로 해석하여 반환.
+parseInt('10') // 10
+
+parseInt('10', 2) // 10을 2진수로 해석
+```
+기수를 지정하여 10진수 숫자 → 해당 기수의 문자열로 반환 필요 시 → Number.prototype.toString() 메서드 적용<br><br>
+```js
+const x = 15;
+
+console.log(x.toString(2)); // '1111'
+console.log(parseInt(x.toString(2), 2)); // 15
+
+console.log(x.toString(8)); // '17'
+console.log(parseInt(x.toString(8), 8)); // 15
+
+console.log(x.toString(16)); // 'f'
+console.log(parseInt(x.toString(16), 16)); // 15
+```
 
 **encodeURI / decodeURI**<br>
 완전한 URI을 문자열로 전달받아 이스케이프 처리를 위해 인코딩한다.
 URI는 인터넷에 있는 자원을 나타내는 유일한 주소.
-
 ![](https://velog.velcdn.com/images/next-react/post/087824ed-142f-4ab3-be51-6950ffecae93/image.png)
 
+
+
+```js
+
+```
 
 
 
