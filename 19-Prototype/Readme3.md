@@ -7,7 +7,7 @@ Object.create 메서드는 명시적으로 프로토타입을 지정하여 새�
 두 번째 매개변수(옵션) - 생성할 객체의 프로퍼티 키와 프로퍼티 디스크립터 객체로 이뤄진 객체 전달.<br>
 
 Object.create 메소드는 첫 번째 매개변수에 전달한 객체의 프로토타입 체인에 속하는 객체를 생성.<br>
-→ 객체를 새성하면서 직접적으로 상속을 구현한다.<br>
+→ 객체를 생성하면서 직접적으로 상속을 구현한다.<br>
 
 이 메서드의 장점 3가지.
 - new연산자가 없이도 객체 생성 가능.
@@ -87,7 +87,8 @@ me.staticMethod();
 - 생성자 함수가 소유한 프로퍼티나 메서드를 정적 프로퍼티/메서드라고 함.<br>
   → 생성자 함수가 소유하고 있는 정적 프로퍼티/메서드는 `인스턴스에서 직접 참조/호출 불가능`
   : 코드의TypeError부분 `me.staticMethod()` 참고.<br>
-  ![[정적 프로퍼티,메서드.png]]
+  
+![](https://velog.velcdn.com/images/next-react/post/f6cf5bb2-a27d-485b-b896-9fb939bc80fb/image.png)
 
 ### 📌 19.13 프로퍼티 존재 확인
 
@@ -112,6 +113,18 @@ const Person = {
 * 'age' in person - true
 * 'toString' in person - true
 */
+```
+toString true가 나오는 이유.<br>
+: in 연산자가 person 객체에 속한 프로토타입 체인 상에 존재하는 모든 프로토타입에서<br>
+toString으로 프로퍼티를 검색했기 때문.
+
+#### Reflect.has (ES6 도입)
+in 연산자와 동일하게 동작한다.
+```js
+const person = {name: 'Lee'};
+
+console.log(Reflect.has(person, 'name'));
+console.log(Reflect.has(person, 'toString'));
 ```
 
 #### Object.prototype.hasOwnProperty 메서드
